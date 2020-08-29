@@ -13,6 +13,7 @@ d = datetime.datetime.now()
 today = "{}:{}:{}".format(d.hour, d.minute, d.second)
 
 check_size = os.stat("users.csv")
+#Checks that users.csv log is less than 100kb
 if int(re.search(r"(?<=st_size=)\d+", str(check_size)).group(0)) > 100000:
     print("Larger than 100kb")
     os.remove("users.csv")
@@ -39,7 +40,6 @@ def retrieve_user(sid):
                 return re.search(r"(?<=': ').*?(?=')".format(sid), i).group(0)
 
 notAllow = ['"','\'','[',']','{','}','python','import','script','<','>']
-#notAllow = []
 
 @socketio.on('message')
 def handleMessage(msg, user=''):
@@ -49,7 +49,6 @@ def handleMessage(msg, user=''):
             user = dict(user)['selector']
         except KeyError:
             pass
-        #print('Message: ' + msg)
         if any(x in msg for x in notAllow):
                 send("{}: ".format(user) + "Forbidden characters in msg. <p>prxIP: {}</p>".format(request.user_agent, request.remote_addr), broadcast=True)
         else:
@@ -58,8 +57,7 @@ def handleMessage(msg, user=''):
 @socketio.on('connect')
 def onConnect():
         pass
-        #print(request.sid)
-        #print(request.data)
+
 
 @socketio.on('disconnect')
 def onDisconnect():
@@ -67,7 +65,6 @@ def onDisconnect():
 
 
 if __name__ == '__main__':
-        #socketio.run(app)
         socketio.run(
         app,
         host='127.0.0.1',
