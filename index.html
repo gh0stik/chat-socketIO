@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>Chat Room</title>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<link rel="stylesheet" href="styles_chat.css">
+</head>
+<body>
+<script type="text/javascript">
+$(document).ready(function() {
+        //var user = prompt("Hi! Please input your name: ");
+        while (true){
+                try {
+                    var user = prompt("Hi! Please input your name: ");
+                    if(user.includes("<")||user.includes(">")||user == "") {
+                        throw "Bad name";
+                    } else {
+                        break;
+                    }
+                } catch(err) {
+                    alert("No"+user+" is not your name! Use valid name!");
+                }
+        }
+        var socket = io.connect('ws://127.0.0.1:5000', {secure: true});
+        socket.on('connect', function() {
+                socket.send(' has connected!', $(user));
+        });
+        socket.on('message', function(msg) {
+                $("#messages").append("<li>"+msg+"</li>");
+                console.log('Received message');
+        });
+        $('#sendbutton').on('click', function() {
+                socket.send($('#myMessage').val(), $(user));
+                $('#myMessage').val('');
+        });
+        $(document).on('keypress',function(e) {
+            if(e.which == 13) {
+                socket.send($('#myMessage').val(), $(user));
+                $('#myMessage').val('');
+            }
+        });
+});
+</script>
+<ul style="list-style-type:none;" id="messages"></ul>
+<input type="text" id="myMessage" placeholder="Type your message..">
+<button id="sendbutton">Send</button>
+</body>
+</html>

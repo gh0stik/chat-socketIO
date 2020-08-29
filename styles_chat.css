@@ -1,0 +1,40 @@
+body {
+    background-color: aliceblue;
+    position: static;
+}
+
+li {
+    padding-top: 10px;
+    text-align: center;
+    margin-left: 35%;
+    margin-right: 33%;
+    border-radius: 2px;
+    border-left: 2px solid lightcoral;
+    background-color: lightgoldenrodyellow;
+    text-shadow: 1px;
+    height: 15%;
+    position: static;
+}
+
+input {
+    margin-left: 36.5%;
+    height: 10%;
+    width: 26%;
+    border: none;
+    border-radius: 4px;
+    position: static;
+}
+
+button {
+    height: 10%;
+    width: 5%;
+    border-radius: 1px;
+    border: none;
+    position: static;
+}
+
+p {
+    font-size: 10px;
+    color: lightgray;
+
+}
